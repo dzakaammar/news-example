@@ -1,0 +1,9 @@
+app:
+  port: ":8080"
+
+database:
+  host: "tcp(localhost:3306)"
+  port: 3306
+  username: "root"
+  password: ""
+  name: "kumparan"
