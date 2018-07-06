@@ -39,7 +39,7 @@
 
 [metadata.heroku]
     root-package = "github.com/dzakaammar/news-example"
-    go-version = "go1,10"
+    go-version = "go1.10"
     ensure = true
 
 
