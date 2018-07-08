@@ -2,6 +2,7 @@ app:
   port: ":8080"
 
 database:
+  driver: "sqlite3" #sqlite 3 or mysql
   host: "tcp(localhost:3306)"
   port: 3306
   username: "root"

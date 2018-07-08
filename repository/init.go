@@ -9,6 +9,7 @@ import (
 	"github.com/dzakaammar/news-example/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 var (
@@ -20,8 +21,18 @@ var (
 )
 
 func Init() (*gorm.DB, error) {
-	arg := fmt.Sprintf("%s:%s@%s/%s?charset=utf8&parseTime=True&loc=Local", config.Conf.Database.Username, config.Conf.Database.Password, config.Conf.Database.Host, config.Conf.Database.Name)
-	db, err := gorm.Open("mysql", arg)
+	var arg string
+
+	switch config.Conf.Database.Driver {
+	case "mysql":
+		arg = fmt.Sprintf("%s:%s@%s/%s?charset=utf8&parseTime=True&loc=Local", config.Conf.Database.Username, config.Conf.Database.Password, config.Conf.Database.Host, config.Conf.Database.Name)
+	case "sqlite3":
+		arg = "./news-example.db"
+	default:
+		return nil, errors.New("Unknown Driver")
+	}
+
+	db, err := gorm.Open(config.Conf.Database.Driver, arg)
 	if err != nil {
 		return nil, err
 	}
