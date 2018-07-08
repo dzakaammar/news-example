@@ -85,8 +85,10 @@ func main() {
 	srv.Mount("/", service.MakeHandler(s, httpLogger))
 	srv.Handle("/metrics", promhttp.Handler())
 
+	port := os.Getenv("PORT")
+
 	server := http.Server{
-		Addr:           config.Conf.App.Port,
+		Addr:           ":" + port,
 		Handler:        srv,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
@@ -95,7 +97,7 @@ func main() {
 
 	errs := make(chan error, 2)
 	go func() {
-		Logger.Log("transport", "http", "address", config.Conf.App.Port, "msg", "listening")
+		Logger.Log("transport", "http", "address", port, "msg", "listening")
 		errs <- server.ListenAndServe()
 	}()
 	go func() {
