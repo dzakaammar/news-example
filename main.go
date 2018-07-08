@@ -87,6 +87,10 @@ func main() {
 
 	port := os.Getenv("PORT")
 
+	if port == "" {
+		port = config.Conf.App.Port
+	}
+
 	server := http.Server{
 		Addr:           ":" + port,
 		Handler:        srv,
