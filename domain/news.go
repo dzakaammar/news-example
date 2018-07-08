@@ -1,13 +1,16 @@
 package domain
 
-import "github.com/jinzhu/gorm"
+import "time"
 
 type News struct {
-	gorm.Model
-	Title   string   `gorm:"type:varchar(255);not null" json:"title"`
-	Status  string   `gorm:"type:varchar(20);not null" json:"status"`
-	Content string   `gorm:"type:text" json:"content"`
-	Topics  []*Topic `gorm:"many2many:news_topic;association_jointable_foreignkey:topic_id;jointable_foreignkey:news_id;" json:"topics,omitempty"`
+	ID        uint       `gorm:"primary_key"`
+	Title     string     `gorm:"type:varchar(255);not null" json:"title"`
+	Status    string     `gorm:"type:varchar(20);not null" json:"status"`
+	Content   string     `gorm:"type:text" json:"content"`
+	Topics    []*Topic   `gorm:"many2many:news_topic;association_jointable_foreignkey:topic_id;jointable_foreignkey:news_id;" json:"topics,omitempty"`
+	CreatedAt time.Time  `json:"created_at,omitempty"`
+	UpdatedAt time.Time  `json:"updated_at,omitempty"`
+	DeletedAt *time.Time `sql:"index" json:"deleted_at,omitempty"`
 }
 
 func (News) TableName() string {
